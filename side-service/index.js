@@ -106,8 +106,43 @@ async function syncWithBackend(deviceId, personalBests) {
   return result
 }
 
+// Fetch only rankings from backend (no Zepp Health login needed)
+async function fetchRankingsOnly() {
+  const result = {}
+  for (const disc of DISCIPLINES) {
+    const backendDisc = DISC_MAP[disc.id]
+    if (!backendDisc) continue
+
+    let top10 = []
+    try {
+      const rankData = await fetchJson(`${API_BASE}/rankings/${backendDisc}`)
+      top10 = (rankData.rankings ?? []).map(r => ({
+        rank:      r.rank,
+        deviceId:  r.deviceId,
+        nickname:  r.nickname ?? null,
+        value:     r.value,
+        isYou:     false,
+      }))
+    } catch (_) {}
+
+    result[disc.id] = { top10, myRank: null }
+  }
+  return result
+}
+
 SideService({
   onInit() {
+    // Listen for ranking sync requests from Settings App
+    settingsStorage.addListener('change', async ({ key }) => {
+      if (key !== '_rankingSyncRequest') return
+      try {
+        const globalData = await fetchRankingsOnly()
+        settingsStorage.setItem('globalData', JSON.stringify(globalData))
+        settingsStorage.setItem('lastSyncTime', String(Date.now()))
+      } catch (_) {}
+      settingsStorage.setItem('_syncingRankings', 'false')
+    })
+
     messaging.peerSocket.addListener('message', async (payload) => {
       try {
         const msg = buf2json(payload)
