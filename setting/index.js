@@ -131,6 +131,8 @@ function renderSection(title) {
 }
 
 function renderDiscPills(selected, settingsStorage) {
+  const isSyncing = settingsStorage.getItem('_syncingRankings') === 'true'
+
   return View(
     {
       style: {
@@ -141,23 +143,42 @@ function renderDiscPills(selected, settingsStorage) {
         marginBottom: '16px',
       }
     },
-    DISC_LIST.map(d =>
+    [
+      ...DISC_LIST.map(d =>
+        Button({
+          label: d.label,
+          style: {
+            fontSize: '13px',
+            fontWeight: 'bold',
+            borderRadius: '16px',
+            padding: '6px 14px',
+            background: d.id === selected ? '#00BFFF' : '#0A2B44',
+            color: d.id === selected ? '#001226' : '#00BFFF',
+            border: d.id === selected ? 'none' : '1px solid #0A3B6B',
+          },
+          onClick: () => {
+            settingsStorage.setItem('selectedDisc', d.id)
+          },
+        })
+      ),
+      // Sync pill
       Button({
-        label: d.label,
+        label: isSyncing ? '⏳' : '🔄',
         style: {
           fontSize: '13px',
           fontWeight: 'bold',
           borderRadius: '16px',
           padding: '6px 14px',
-          background: d.id === selected ? '#00BFFF' : '#0A2B44',
-          color: d.id === selected ? '#001226' : '#00BFFF',
-          border: d.id === selected ? 'none' : '1px solid #0A3B6B',
+          background: '#0A2B44',
+          color: '#00BFFF',
+          border: '1px solid #0A3B6B',
         },
         onClick: () => {
-          settingsStorage.setItem('selectedDisc', d.id)
+          settingsStorage.setItem('_syncingRankings', 'true')
+          settingsStorage.setItem('_rankingSyncRequest', String(Date.now()))
         },
-      })
-    )
+      }),
+    ]
   )
 }
 
@@ -404,29 +425,6 @@ AppSettingsPage({
 
         // Discipline selector pills
         renderDiscPills(selDisc, settingsStorage),
-
-        // Sync button
-        Button({
-          label: settingsStorage.getItem('_syncingRankings') === 'true'
-            ? t('syncing')
-            : t('sync_btn'),
-          style: {
-            fontSize: '15px',
-            fontWeight: 'bold',
-            borderRadius: '22px',
-            padding: '10px 0',
-            width: '100%',
-            background: '#051D35',
-            color: '#00BFFF',
-            border: '1px solid #0A3B6B',
-            marginBottom: '16px',
-          },
-          onClick: () => {
-            // Signal the side-service to fetch rankings from backend
-            settingsStorage.setItem('_syncingRankings', 'true')
-            settingsStorage.setItem('_rankingSyncRequest', String(Date.now()))
-          },
-        }),
 
         // Leaderboard
         renderLeaderboard(globalData, selDisc, syncAgo),
