@@ -48,7 +48,7 @@ function renderSection(title) {
   )
 }
 
-function renderDiscPills(selected, onSelect) {
+function renderDiscPills(selected, settingsStorage) {
   return View(
     {
       style: {
@@ -71,7 +71,9 @@ function renderDiscPills(selected, onSelect) {
           color: d.id === selected ? '#001226' : '#00BFFF',
           border: d.id === selected ? 'none' : '1px solid #0A3B6B',
         },
-        onClick: () => onSelect(d.id),
+        onClick: () => {
+          settingsStorage.setItem('selectedDisc', d.id)
+        },
       })
     )
   )
@@ -269,7 +271,6 @@ function renderRow(entry, index, discId) {
 AppSettingsPage({
   state: {
     props: {},
-    selectedDisc: '100',
   },
 
   setState(props) {
@@ -291,8 +292,8 @@ AppSettingsPage({
     const lastSync   = settingsStorage.getItem('lastSyncTime')
     const syncAgo    = lastSync ? timeSince(Number(lastSync)) : null
 
-    // Selected discipline for rankings tab
-    const selDisc = this.state.selectedDisc
+    // Selected discipline — stored in settingsStorage to trigger re-render on change
+    const selDisc = settingsStorage.getItem('selectedDisc') || '100'
 
     return View(
       { style: { padding: '16px 20px', backgroundColor: '#001226', minHeight: '100%' } },
@@ -320,9 +321,7 @@ AppSettingsPage({
         renderSection('🌐  Rankings Globales'),
 
         // Discipline selector pills
-        renderDiscPills(selDisc, (id) => {
-          this.state.selectedDisc = id
-        }),
+        renderDiscPills(selDisc, settingsStorage),
 
         // Leaderboard
         renderLeaderboard(globalData, selDisc, syncAgo),
