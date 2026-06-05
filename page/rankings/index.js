@@ -5,9 +5,9 @@ import { localStorage } from '@zos/storage'
 import { SCREEN_W, SAFE_X, SAFE_W, C, DISCIPLINE_MAP, rankColor } from '../../utils/constants.js'
 
 const CX     = SCREEN_W / 2
-const ROW_H  = 46
-const ROW_G  = 6
-const LIST_Y = 96
+const ROW_H  = 56
+const ROW_G  = 8
+const LIST_Y = 100
 
 // Demo fallback: simulate global leaderboard with mix of users
 const DEMO_GLOBAL = {
@@ -61,14 +61,14 @@ Page({
       text_color: C.cyan, click_func: () => back(),
     })
     createWidget(widget.TEXT, {
-      x: SAFE_X + 48, y: 16, w: SAFE_W - 96, h: 28,
+      x: SAFE_X + 48, y: 16, w: SAFE_W - 96, h: 32,
       text: getText(this.disc?.labelKey ?? 'disc_100').toUpperCase(),
-      text_size: 22, align_h: align.CENTER_H, color: C.white,
+      text_size: 26, align_h: align.CENTER_H, color: C.white,
     })
     createWidget(widget.TEXT, {
-      x: 0, y: 46, w: SCREEN_W, h: 20,
+      x: 0, y: 50, w: SCREEN_W, h: 22,
       text: getText('ranking_global'),
-      text_size: 12, align_h: align.CENTER_H, color: C.cyan,
+      text_size: 15, align_h: align.CENTER_H, color: C.cyan,
     })
     createWidget(widget.FILL_RECT, {
       x: SAFE_X, y: 72, w: SAFE_W, h: 1, color: C.line,
@@ -113,11 +113,11 @@ Page({
         })
       }
 
-      // Rank number — left column (34px wide)
+      // Rank number — left column (38px wide)
       createWidget(widget.TEXT, {
-        x: SAFE_X + 5, y: y + 10, w: 30, h: 26,
+        x: SAFE_X + 5, y: y + 13, w: 34, h: 30,
         text: `${entry.rank}`,
-        text_size: isPodium ? 20 : 17,
+        text_size: isPodium ? 24 : 20,
         align_h: align.CENTER_H,
         color: isMe ? C.cyan : isPodium ? rColor : C.ink40,
       })
@@ -127,22 +127,22 @@ Page({
         ? getText('yo')
         : (entry.nickname && entry.nickname !== 'Anónimo' ? entry.nickname : shortId(entry.deviceId))
       const timeStr  = fmtTime(entry.value, this.discId)
-      const timeW    = 80
-      const nickX    = SAFE_X + 40
-      const nickW    = SAFE_W - 40 - timeW - 4
+      const timeW    = 90
+      const nickX    = SAFE_X + 44
+      const nickW    = SAFE_W - 44 - timeW - 4
 
       createWidget(widget.TEXT, {
-        x: nickX, y: y + 10, w: nickW, h: 26,
+        x: nickX, y: y + 13, w: nickW, h: 30,
         text: nick,
-        text_size: isPodium ? 18 : 16,
+        text_size: isPodium ? 22 : 20,
         color: isMe ? C.cyan : C.white,
       })
 
       // Time — right-aligned
       createWidget(widget.TEXT, {
-        x: SAFE_X + SAFE_W - timeW, y: y + 10, w: timeW, h: 26,
+        x: SAFE_X + SAFE_W - timeW, y: y + 13, w: timeW, h: 30,
         text: timeStr,
-        text_size: isPodium ? 18 : 16,
+        text_size: isPodium ? 22 : 20,
         align_h: align.RIGHT,
         color: isPodium ? rColor : isMe ? C.cyan : C.ink60,
       })
@@ -172,14 +172,14 @@ Page({
         radius: 10, color: 0x00243C,
       })
       createWidget(widget.TEXT, {
-        x: SAFE_X + 8, y: y + 5, w: SAFE_W - 16, h: 18,
+        x: SAFE_X + 8, y: y + 6, w: SAFE_W - 16, h: 22,
         text: `${getText('tu_posicion')}: #${this.myRank.rank} ${getText('de')} ${this.myRank.total}`,
-        text_size: 14, color: C.cyan,
+        text_size: 17, color: C.cyan,
       })
       createWidget(widget.TEXT, {
-        x: SAFE_X + 8, y: y + 23, w: SAFE_W - 16, h: 20,
+        x: SAFE_X + 8, y: y + 28, w: SAFE_W - 16, h: 24,
         text: fmtTime(this.myRank.value, this.discId),
-        text_size: 18, color: C.white,
+        text_size: 22, color: C.white,
       })
     }
 
@@ -188,9 +188,9 @@ Page({
     if (hasData) {
       const btnY = LIST_Y + (this.top10.length + ((!inTop10 && this.myRank) ? 1 : 0)) * (ROW_H + ROW_G) + 16
       createWidget(widget.BUTTON, {
-        x: CX - 100, y: btnY, w: 200, h: 44,
+        x: CX - 110, y: btnY, w: 220, h: 50,
         text: getText('ver_mas'),
-        text_size: 16, radius: 22,
+        text_size: 19, radius: 25,
         normal_color: 0x051D35, press_color: 0x0A2F50,
         text_color: C.cyan,
         click_func: () => push({ url: 'page/world-rank/index' }),
