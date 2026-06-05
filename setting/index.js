@@ -12,8 +12,8 @@ const DISC_LIST = [
   { id: '500',  label: '500m' },
   { id: '1000', label: '1K'   },
   { id: '1500', label: '1.5K' },
-  { id: 'maxt', label: 'Max T' },
-  { id: 'maxd', label: 'Max D' },
+  { id: 'maxt', label: 'Tiempo' },
+  { id: 'maxd', label: 'Distancia' },
 ]
 
 function fmtVal(seconds, discId) {
