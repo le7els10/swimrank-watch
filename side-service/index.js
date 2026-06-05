@@ -85,6 +85,7 @@ async function syncWithBackend(deviceId, personalBests) {
       top10 = (rankData.rankings ?? []).map(r => ({
         rank:      r.rank,
         deviceId:  r.deviceId,
+        nickname:  r.nickname ?? null,
         value:     r.value,
         isYou:     r.deviceId === deviceId,
       }))
@@ -121,6 +122,10 @@ SideService({
 
         // Sync with backend → get global leaderboards
         const globalData = await syncWithBackend(deviceId, personalBests)
+
+        // Persist to settingsStorage so the Settings App can display rankings
+        settingsStorage.setItem('globalData', JSON.stringify(globalData))
+        settingsStorage.setItem('lastSyncTime', String(Date.now()))
 
         send({ type: 'SYNC_RESPONSE', globalData, personalBests })
       } catch (err) {
