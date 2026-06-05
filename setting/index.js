@@ -2,6 +2,84 @@
 // Shows credentials + global rankings for each discipline
 
 // ═══════════════════════════════════════════════════════════════
+// I18N
+// ═══════════════════════════════════════════════════════════════
+
+const STRINGS = {
+  es: {
+    tagline:        'Cada pileta es tu arena de competencia',
+    rankings_title: '🌐  Rankings Globales',
+    account_title:  '⚙️  Cuenta Zepp Health',
+    connected:      '✓  Cuenta conectada',
+    nickname_label: '🏆 Nickname (aparece en el ranking)',
+    nickname_ph:    'ej: JuanNadador',
+    email_label:    '📧 Email de Zepp Health',
+    email_ph:       'vos@email.com',
+    pass_label:     '🔑 Contraseña',
+    pass_ph:        '••••••••',
+    privacy_title:  '🔒  Privacidad',
+    privacy_text:   'Tus credenciales nunca salen de tu teléfono. Solo se usa el token de sesión para importar tus sesiones.',
+    clear_btn:      'Borrar credenciales',
+    sync_empty:     'Sincronizá desde tu reloj para ver los rankings globales aquí.',
+    no_data:        'Sin datos para esta disciplina.',
+    top10:          'TOP 10',
+    sync_label:     'Sync',
+    your_pos:       'Tu posición',
+    of:             'de',
+    you_tag:        '← TÚ',
+    now:            'ahora',
+    ago_min:        'hace %d min',
+    ago_h:          'hace %dh',
+    ago_d:          'hace %dd',
+    disc_maxt:      'Tiempo',
+    disc_maxd:      'Distancia',
+  },
+  en: {
+    tagline:        'Every pool is your arena',
+    rankings_title: '🌐  Global Rankings',
+    account_title:  '⚙️  Zepp Health Account',
+    connected:      '✓  Account connected',
+    nickname_label: '🏆 Nickname (shown in ranking)',
+    nickname_ph:    'e.g. SwimmerJohn',
+    email_label:    '📧 Zepp Health Email',
+    email_ph:       'you@email.com',
+    pass_label:     '🔑 Password',
+    pass_ph:        '••••••••',
+    privacy_title:  '🔒  Privacy',
+    privacy_text:   'Your credentials never leave your phone. Only the session token is used to import your sessions.',
+    clear_btn:      'Clear credentials',
+    sync_empty:     'Sync from your watch to see global rankings here.',
+    no_data:        'No data for this discipline.',
+    top10:          'TOP 10',
+    sync_label:     'Sync',
+    your_pos:       'Your position',
+    of:             'of',
+    you_tag:        '← YOU',
+    now:            'now',
+    ago_min:        '%d min ago',
+    ago_h:          '%dh ago',
+    ago_d:          '%dd ago',
+    disc_maxt:      'Duration',
+    disc_maxd:      'Distance',
+  },
+}
+
+// Detect language: Zepp Settings App exposes navigator-like globals
+function getLang() {
+  try {
+    const lang = typeof navigator !== 'undefined' && navigator.language
+      ? navigator.language.toLowerCase()
+      : 'es'
+    return lang.startsWith('en') ? 'en' : 'es'
+  } catch (_) {
+    return 'es'
+  }
+}
+
+const LANG = getLang()
+function t(key) { return STRINGS[LANG]?.[key] ?? STRINGS.es[key] ?? key }
+
+// ═══════════════════════════════════════════════════════════════
 // CONSTANTS & HELPERS (must be before AppSettingsPage due to no hoisting)
 // ═══════════════════════════════════════════════════════════════
 
@@ -12,8 +90,8 @@ const DISC_LIST = [
   { id: '500',  label: '500m' },
   { id: '1000', label: '1K'   },
   { id: '1500', label: '1.5K' },
-  { id: 'maxt', label: 'Tiempo' },
-  { id: 'maxd', label: 'Distancia' },
+  { id: 'maxt', label: t('disc_maxt') },
+  { id: 'maxd', label: t('disc_maxd') },
 ]
 
 function fmtVal(seconds, discId) {
@@ -30,10 +108,10 @@ function shortId(deviceId) {
 
 function timeSince(timestamp) {
   const diff = Math.floor((Date.now() - timestamp) / 1000)
-  if (diff < 60) return 'ahora'
-  if (diff < 3600) return `hace ${Math.floor(diff / 60)} min`
-  if (diff < 86400) return `hace ${Math.floor(diff / 3600)}h`
-  return `hace ${Math.floor(diff / 86400)}d`
+  if (diff < 60) return t('now')
+  if (diff < 3600) return t('ago_min').replace('%d', Math.floor(diff / 60))
+  if (diff < 86400) return t('ago_h').replace('%d', Math.floor(diff / 3600))
+  return t('ago_d').replace('%d', Math.floor(diff / 86400))
 }
 
 function renderSection(title) {
@@ -98,7 +176,7 @@ function renderLeaderboard(globalData, discId, syncAgo) {
       [
         View({ style: { fontSize: '28px', marginBottom: '8px' } }, ['🏊']),
         View({ style: { color: '#666', fontSize: '14px', lineHeight: '1.5' } },
-          ['Sincronizá desde tu reloj para ver los rankings globales aquí.']),
+          [t('sync_empty')]),
       ]
     )
   }
@@ -116,7 +194,7 @@ function renderLeaderboard(globalData, discId, syncAgo) {
       },
       [
         View({ style: { color: '#666', fontSize: '14px' } },
-          ['Sin datos para esta disciplina.']),
+          [t('no_data')]),
       ]
     )
   }
@@ -139,8 +217,8 @@ function renderLeaderboard(globalData, discId, syncAgo) {
       },
       [
         View({ style: { color: '#00BFFF', fontSize: '16px', fontWeight: 'bold' } },
-          [`🏆 TOP 10 — ${discMeta?.label ?? discId}`]),
-        syncAgo && View({ style: { color: '#444', fontSize: '11px' } }, [`Sync: ${syncAgo}`]),
+          [`🏆 ${t('top10')} — ${discMeta?.label ?? discId}`]),
+        syncAgo && View({ style: { color: '#444', fontSize: '11px' } }, [`${t('sync_label')}: ${syncAgo}`]),
       ]
     ),
 
@@ -162,7 +240,7 @@ function renderLeaderboard(globalData, discId, syncAgo) {
           { style: { display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' } },
           [
             View({ style: { color: '#00BFFF', fontSize: '15px', fontWeight: 'bold' } },
-              [`Tu posición: #${myRank.rank} de ${myRank.total}`]),
+              [`${t('your_pos')}: #${myRank.rank} ${t('of')} ${myRank.total}`]),
             View({ style: { color: '#FFFFFF', fontSize: '16px', fontWeight: 'bold' } },
               [fmtVal(myRank.value, discId)]),
           ]
@@ -243,7 +321,7 @@ function renderRow(entry, index, discId) {
                 color: isYou ? '#00BFFF' : '#FFFFFF',
               }
             },
-            [isYou ? `${nick}  ← TÚ` : nick]
+            [isYou ? `${nick}  ${t('you_tag')}` : nick]
           ),
         ]
       ),
@@ -310,7 +388,7 @@ AppSettingsPage({
             ),
             View(
               { style: { fontSize: '14px', color: '#666' } },
-              ['Cada pileta es tu arena de competencia']
+              [t('tagline')]
             ),
           ]
         ),
@@ -318,7 +396,7 @@ AppSettingsPage({
         // ══════════════════════════════════════════════════════════
         // RANKINGS SECTION
         // ══════════════════════════════════════════════════════════
-        renderSection('🌐  Rankings Globales'),
+        renderSection(t('rankings_title')),
 
         // Discipline selector pills
         renderDiscPills(selDisc, settingsStorage),
@@ -332,7 +410,7 @@ AppSettingsPage({
         // ══════════════════════════════════════════════════════════
         // ACCOUNT SECTION
         // ══════════════════════════════════════════════════════════
-        renderSection('⚙️  Cuenta Zepp Health'),
+        renderSection(t('account_title')),
 
         // Status banner
         isLinked && View(
@@ -346,7 +424,7 @@ AppSettingsPage({
             }
           },
           [
-            View({ style: { color: '#00CC66', fontWeight: 'bold', fontSize: '15px' } }, ['✓  Cuenta conectada']),
+            View({ style: { color: '#00CC66', fontWeight: 'bold', fontSize: '15px' } }, [t('connected')]),
             View({ style: { color: '#555', fontSize: '13px', marginTop: '4px' } }, [email]),
           ]
         ),
@@ -356,11 +434,11 @@ AppSettingsPage({
           { style: { marginBottom: '14px' } },
           [
             View({ style: { color: '#00BFFF', fontSize: '14px', marginBottom: '6px', fontWeight: 'bold' } },
-              ['🏆 Nickname (aparece en el ranking)']),
+              [t('nickname_label')]),
             TextInput({
               label: '',
               value: nickname,
-              placeholder: 'ej: JuanNadador',
+              placeholder: t('nickname_ph'),
               style: { fontSize: '16px', borderRadius: '10px' },
               onChange: (val) => {
                 settingsStorage.setItem('nickname', val.trim())
@@ -374,11 +452,11 @@ AppSettingsPage({
           { style: { marginBottom: '14px' } },
           [
             View({ style: { color: '#00BFFF', fontSize: '14px', marginBottom: '6px', fontWeight: 'bold' } },
-              ['📧 Email de Zepp Health']),
+              [t('email_label')]),
             TextInput({
               label: '',
               value: email,
-              placeholder: 'vos@email.com',
+              placeholder: t('email_ph'),
               style: { fontSize: '16px', borderRadius: '10px' },
               onChange: (val) => {
                 settingsStorage.setItem('zeppEmail', val.trim())
@@ -392,11 +470,11 @@ AppSettingsPage({
           { style: { marginBottom: '20px' } },
           [
             View({ style: { color: '#00BFFF', fontSize: '14px', marginBottom: '6px', fontWeight: 'bold' } },
-              ['🔑 Contraseña']),
+              [t('pass_label')]),
             TextInput({
               label: '',
               value: password,
-              placeholder: '••••••••',
+              placeholder: t('pass_ph'),
               style: { fontSize: '16px', borderRadius: '10px' },
               onChange: (val) => {
                 settingsStorage.setItem('zeppPassword', val)
@@ -419,17 +497,17 @@ AppSettingsPage({
             }
           },
           [
-            View({ style: { color: '#00BFFF', fontSize: '14px', fontWeight: 'bold' } }, ['🔒  Privacidad']),
+            View({ style: { color: '#00BFFF', fontSize: '14px', fontWeight: 'bold' } }, [t('privacy_title')]),
             View(
               { style: { color: '#555', fontSize: '13px', marginTop: '6px', lineHeight: '1.5' } },
-              ['Tus credenciales nunca salen de tu teléfono. Solo se usa el token de sesión para importar tus sesiones.']
+              [t('privacy_text')]
             ),
           ]
         ),
 
         // Clear button
         isLinked && Button({
-          label: 'Borrar credenciales',
+          label: t('clear_btn'),
           style: {
             fontSize: '15px',
             borderRadius: '22px',
