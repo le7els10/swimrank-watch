@@ -1,0 +1,92 @@
+msgid "swim"
+msgstr "SWIM"
+
+msgid "rank"
+msgstr "RANK"
+
+msgid "mundial_chip"
+msgstr "▲ #47 WORLD"
+
+msgid "mejor"
+msgstr "Best"
+
+msgid "sincronizar"
+msgstr "SYNC"
+
+msgid "conectando"
+msgstr "Connecting..."
+
+msgid "sincronizando"
+msgstr "Syncing..."
+
+msgid "sincronizado"
+msgstr "✓ Synced"
+
+msgid "error_sync"
+msgstr "✗ Sync error"
+
+msgid "ranking_global"
+msgstr "GLOBAL RANKING"
+
+msgid "top10_kicker"
+msgstr "TOP 10 · GLOBAL"
+
+msgid "sin_datos"
+msgstr "No data.\nPress Sync."
+
+msgid "tu_posicion"
+msgstr "YOUR POSITION"
+
+msgid "nadadores"
+msgstr "swimmers"
+
+msgid "ver_mas"
+msgstr "🌐 See more"
+
+msgid "importando"
+msgstr "Importing sessions..."
+
+msgid "cancelar"
+msgstr "Cancel"
+
+msgid "nuevo_record"
+msgstr "NEW RECORD!"
+
+msgid "seguir"
+msgstr "CONTINUE"
+
+msgid "ranking_mundial_titulo"
+msgstr "WORLD RANKING"
+
+msgid "tu_pos_kicker"
+msgstr "YOUR POSITION"
+
+msgid "de"
+msgstr "of"
+
+msgid "disc_50"
+msgstr "50 m"
+
+msgid "disc_100"
+msgstr "100 m"
+
+msgid "disc_200"
+msgstr "200 m"
+
+msgid "disc_500"
+msgstr "500 m"
+
+msgid "disc_1000"
+msgstr "1000 m"
+
+msgid "disc_1500"
+msgstr "1500 m"
+
+msgid "disc_maxt"
+msgstr "Longest time"
+
+msgid "disc_maxd"
+msgstr "Longest dist."
+
+msgid "yo"
+msgstr "YOU"

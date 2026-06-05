@@ -1,0 +1,92 @@
+msgid "swim"
+msgstr "SWIM"
+
+msgid "rank"
+msgstr "RANK"
+
+msgid "mundial_chip"
+msgstr "▲ #47 MUNDIAL"
+
+msgid "mejor"
+msgstr "Mejor"
+
+msgid "sincronizar"
+msgstr "SINCRONIZAR"
+
+msgid "conectando"
+msgstr "Conectando..."
+
+msgid "sincronizando"
+msgstr "Sincronizando..."
+
+msgid "sincronizado"
+msgstr "✓ Sincronizado"
+
+msgid "error_sync"
+msgstr "✗ Error al sincronizar"
+
+msgid "ranking_global"
+msgstr "RANKING GLOBAL"
+
+msgid "top10_kicker"
+msgstr "TOP 10 · GLOBAL"
+
+msgid "sin_datos"
+msgstr "Sin datos.\nPresiona Sincronizar."
+
+msgid "tu_posicion"
+msgstr "TU POSICIÓN"
+
+msgid "nadadores"
+msgstr "nadadores"
+
+msgid "ver_mas"
+msgstr "🌐 Ver más"
+
+msgid "importando"
+msgstr "Importando sesiones..."
+
+msgid "cancelar"
+msgstr "Cancelar"
+
+msgid "nuevo_record"
+msgstr "¡NUEVO RÉCORD!"
+
+msgid "seguir"
+msgstr "SEGUIR"
+
+msgid "ranking_mundial_titulo"
+msgstr "RANKING MUNDIAL"
+
+msgid "tu_pos_kicker"
+msgstr "TU POSICIÓN"
+
+msgid "de"
+msgstr "de"
+
+msgid "disc_50"
+msgstr "50 m"
+
+msgid "disc_100"
+msgstr "100 m"
+
+msgid "disc_200"
+msgstr "200 m"
+
+msgid "disc_500"
+msgstr "500 m"
+
+msgid "disc_1000"
+msgstr "1000 m"
+
+msgid "disc_1500"
+msgstr "1500 m"
+
+msgid "disc_maxt"
+msgstr "Mayor tiempo"
+
+msgid "disc_maxd"
+msgstr "Mayor distancia"
+
+msgid "yo"
+msgstr "TÚ"

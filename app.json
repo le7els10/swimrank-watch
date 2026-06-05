@@ -1,0 +1,57 @@
+{
+  "configVersion": "v3",
+  "app": {
+    "appId": 1116222,
+    "appName": "SwimRank",
+    "appType": "app",
+    "version": { "code": 1, "name": "1.0.0" },
+    "icon": "icon.png",
+    "vender": "swimrank",
+    "description": "Top 10 personal swimming rankings and world leaderboard for freestyle swimmers."
+  },
+  "permissions": [
+    "data:user.hd.workout",
+    "device:os.local_storage"
+  ],
+  "runtime": {
+    "apiVersion": {
+      "compatible": "3.0",
+      "target": "3.0",
+      "minVersion": "3.0"
+    }
+  },
+  "debug": false,
+  "targets": {
+    "band_amazfit_active2_round": {
+      "module": {
+        "page": {
+          "pages": [
+            "page/home/index",
+            "page/rankings/index",
+            "page/world-rank/index",
+            "page/sync/index",
+            "page/record/index"
+          ]
+        },
+        "app-side": {
+          "path": "side-service/index"
+        },
+        "setting": {
+          "path": "setting/index"
+        }
+      },
+      "platforms": [
+        { "st": "r" }
+      ],
+      "designWidth": 466
+    }
+  },
+  "i18n": {
+    "en-US": { "appName": "SwimRank" },
+    "es-ES": { "appName": "SwimRank" },
+    "es-MX": { "appName": "SwimRank" },
+    "es-AR": { "appName": "SwimRank" },
+    "es-CO": { "appName": "SwimRank" }
+  },
+  "defaultLanguage": "en-US"
+}
